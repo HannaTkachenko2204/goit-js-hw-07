@@ -20,16 +20,22 @@ const arrOfItems = galleryItems
   .join("");
 
 galleryEl.insertAdjacentHTML("afterbegin", arrOfItems);
-console.log(galleryEl);
 
-galleryEl.addEventListener('click', event => {
-    event.preventDefault();
-    if (event.target.nodeName !== 'IMG') {
-        return;
+galleryEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+
+  const bunnerURL = event.target.dataset.source;
+
+  const modal = basicLightbox.create(`
+    <img src="${bunnerURL}" width="800" height="600">`);
+  modal.show();
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.visible()) {
+      modal.close();
     }
-    
-    const bunnerURL = event.target.dataset.source;
-
-    const instance = basicLightbox.create(`
-    <img src="${bunnerURL}" width="800" height="600">`).show()
+  });
 });
