@@ -30,12 +30,26 @@ galleryEl.addEventListener("click", (event) => {
   const bunnerURL = event.target.dataset.source;
 
   const modal = basicLightbox.create(`
-    <img src="${bunnerURL}" width="800" height="600">`);
+  <img src="${bunnerURL}">`, {
+		onShow: (modal) => {window.addEventListener("keydown", escModal)},
+		onClose: (modal) => {window.removeEventListener("keydown", escModal)}
+	});
+
+  modal.show();
+
+  function escModal({code}) {
+    if (code === "Escape" && modal.visible() === true) {
+      modal.close();
+    }
+  }
+});
+
+  /*const modal = basicLightbox.create(`
+    <img src="${bunnerURL}">`);
   modal.show();
 
   window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.visible()) {
+    if (event.key === "Escape" && modal.visible() === true) {
       modal.close();
     }
-  });
-});
+  });*/
